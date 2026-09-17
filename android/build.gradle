@@ -5,7 +5,7 @@ buildscript {
     ext.kotlin_version = '2.0.0'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -17,7 +17,7 @@ buildscript {
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -26,24 +26,29 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace 'org.sigrok.flutter_libserialport'
-    compileSdk 34
+    compileSdk 35
+    ndkVersion "28.0.12433566"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 24
         namespace 'org.sigrok.flutter_libserialport'
 
-        // Support for 16KB page size alignment
         externalNativeBuild {
             cmake {
                 // Ensure 16KB alignment for Android 15+ compatibility
+                // This flag is the primary way to enable 16KB support in AGP/NDK
                 arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
                 cppFlags "-D_FILE_OFFSET_BITS=64"
-                // Add linker flags for proper alignment
-                arguments "-DCMAKE_SHARED_LINKER_FLAGS=-Wl,-z,max-page-size=16384"
             }
+        }
+    }
+    packaging {
+        jniLibs {
+            // Required for 16KB alignment: so files must be uncompressed in the APK
+            useLegacyPackaging = false
         }
     }
     lintOptions {

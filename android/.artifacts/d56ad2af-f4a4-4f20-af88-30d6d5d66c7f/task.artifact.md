@@ -1,0 +1,21 @@
+# Task List - Fix 16KB Page Alignment
+
+- [x] Update `build.gradle`
+    - [x] Set `ndkVersion` to r27
+    - [x] Configure `externalNativeBuild` for 16KB support
+    - [x] Configure `packaging` to disable native library compression
+- [x] Update `gradle.properties`
+    - [x] Remove deprecated `android.bundle.enableUncompressedNativeLibs`
+- [x] Update `libserialport/CMakeLists.txt`
+    - [x] Use `target_link_options` to set `max-page-size=16384`
+- [/] Verify Build
+    - [ ] Run native build verification
+- [x] Create Walkthrough
+- [x] Fix Example App Build
+    - [x] Remove deprecated flag from `example/android/gradle.properties`
+    - [x] Update `example/android/app/build.gradle` with 16KB packaging options
+- [x] Resolve Inconsistent Zip Alignment
+    - [x] Update NDK to r28 in all build files
+    - [x] Set `minSdkVersion` to 24 in all build files
+    - [x] Upgrade AGP to 8.7.0 and Gradle to 8.9 in example app
+    - [x] Update plugin `AndroidManifest.xml` with `extractNativeLibs`

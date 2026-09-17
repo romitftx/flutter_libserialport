@@ -1,3 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="org.sigrok.flutter_libserialport">
+  <application android:extractNativeLibs="false" />
 </manifest>

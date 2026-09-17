@@ -18,9 +18,13 @@ target_compile_options(${PROJECT_NAME} PRIVATE
   -ffunction-sections -fdata-sections)
 target_compile_definitions(${PROJECT_NAME} PRIVATE LIBSERIALPORT_ATBUILD)
 
-# Add linker flags for 16KB page alignment
-set_target_properties(${PROJECT_NAME} PROPERTIES
-  LINK_FLAGS "-Wl,-z,max-page-size=16384 -Wl,--gc-sections"
+# Ensure 16KB page alignment for Android 15+ compatibility
+# Also explicitly enable RELRO (Relocation Read-Only) to fix alignment issues
+target_link_options(${PROJECT_NAME} PRIVATE
+  "-Wl,-z,max-page-size=16384"
+  "-Wl,-z,relro"
+  "-Wl,-z,now"
+  "-Wl,--gc-sections"
 )
 target_include_directories(${PROJECT_NAME} PRIVATE
   "${CMAKE_CURRENT_SOURCE_DIR}"
