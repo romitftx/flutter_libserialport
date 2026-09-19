@@ -22,6 +22,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE LIBSERIALPORT_ATBUILD)
 # Also explicitly enable RELRO (Relocation Read-Only) to fix alignment issues
 target_link_options(${PROJECT_NAME} PRIVATE
   "-Wl,-z,max-page-size=16384"
+  "-Wl,-z,common-page-size=16384"
   "-Wl,-z,relro"
   "-Wl,-z,now"
   "-Wl,--gc-sections"
